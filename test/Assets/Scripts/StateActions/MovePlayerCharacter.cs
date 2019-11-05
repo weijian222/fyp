@@ -65,6 +65,7 @@ public class MovePlayerCharacter : StateAction
 			states.rigidbody.drag = 0;
 			targetVelocity.y = currentVelocity.y;
 		}
+		HandleAnimations();
 
 		Debug.DrawRay((states.mTransform.position + Vector3.up * .2f), targetVelocity, Color.green, 0.01f, false);
 		//states.rigidbody.velocity = Vector3.Lerp(currentVelocity, targetVelocity, states.delta * states.adaptSpeed);
