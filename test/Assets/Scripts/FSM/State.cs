@@ -9,6 +9,9 @@ public class State
 	List<StateAction> updateActions;
 	List<StateAction> lateUpdateActions;
 
+	public delegate void OnEnter();
+	public OnEnter onEnter;
+
 	public State(List<StateAction> fixedUpdateActions, List<StateAction> updateActions, List<StateAction> lateUpdateActions)
 	{
 		this.fixedUpdateActions = fixedUpdateActions;

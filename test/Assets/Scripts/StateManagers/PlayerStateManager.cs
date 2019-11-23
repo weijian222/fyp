@@ -9,10 +9,7 @@ public class PlayerStateManager : CharacterStateManager
 	public float mouseY;
 	public float moveAmount;
 	public Vector3 rotateDirection;
-
-	[Header("States")]
-	public bool isGrounded;
-
+	
 	[Header("References")]
 	public new Transform camera;
 
@@ -46,17 +43,22 @@ public class PlayerStateManager : CharacterStateManager
 			}
 			);
 
+		locomotion.onEnter = DisableRootMotion;
+
 		State attackState = new State(
 			new List<StateAction>() //fixedUpdateActions
 			{
 			},
 			new List<StateAction>() //updateActions
 			{
+				new MonitorInteractingAnimation(this, "isInteracting", locomotionId),
 			},
 			new List<StateAction>() //lateUpdateActions
 			{
 			}
 			);
+
+		attackState.onEnter = EnableRootMotion;
 
 		RegisterState(locomotionId, locomotion);
 		RegisterState(attackStateId, attackState);
@@ -82,4 +84,17 @@ public class PlayerStateManager : CharacterStateManager
 	{
 		base.LateTick();
 	}
+
+	#region State Events
+	void DisableRootMotion()
+	{
+		useRootMotion = false;
+	}
+
+	void EnableRootMotion()
+	{
+		useRootMotion = true;
+	}
+
+	#endregion
 }

@@ -53,6 +53,7 @@ public abstract class StateManager : MonoBehaviour
 		State targetState = GetState(targetId);
 		//run on enter actions
 		currentState = targetState;
+		currentState.onEnter?.Invoke();
 	}
 
 	State GetState(string targetId)

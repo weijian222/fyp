@@ -17,6 +17,7 @@ public class InputManager : StateAction
 	public override bool Execute()
 	{
 		bool retVal = false;
+		isAttacking = false;
 
 		s.horizontal = Input.GetAxis("Horizontal");
 		s.vertical = Input.GetAxis("Vertical");
@@ -46,7 +47,7 @@ public class InputManager : StateAction
 	{
 		if (Rb || Rt || Lb || Lt)
 		{
-			//isAttacking = true;
+			isAttacking = true;
 		}
 
 		if (y_input)
@@ -56,8 +57,8 @@ public class InputManager : StateAction
 
 		if (isAttacking)
 		{
-			//s.PlayTargetAnimation("");
-			//s.ChangeState(s.attackStateId);
+			s.PlayTargetAnimation("Attack 1", true);
+			s.ChangeState(s.attackStateId);
 		}
 
 		return isAttacking;

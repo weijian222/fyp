@@ -151,6 +151,24 @@ Transform:
   m_Father: {fileID: 1870441084}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &179220073 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3400026261021180596, guid: 7545d588135317241bf1a40288d3a54a,
+    type: 3}
+  m_PrefabInstance: {fileID: 6987790918113299823}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &179220074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179220073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8da6f3fc590c0934ea1b6fa563d664f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &340704764
 GameObject:
   m_ObjectHideFlags: 3
@@ -861,7 +879,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.048066743, y: 0.000000004296623, z: -2.0676369e-10, w: 0.99884415}
+  m_LocalRotation: {x: 0.048066743, y: -0.000000004296623, z: 2.0676369e-10, w: 0.99884415}
   m_LocalPosition: {x: 0, y: 2.5, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1223,7 +1241,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1822294248}
-  m_LocalRotation: {x: 0.04806674, y: 0.000000002148312, z: -1.03394016e-10, w: 0.9988442}
+  m_LocalRotation: {x: 0.04806674, y: -0.0000000021483118, z: 1.0336965e-10, w: 0.9988442}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1281,15 +1299,18 @@ MonoBehaviour:
   mTransform: {fileID: 0}
   anim: {fileID: 0}
   rigidbody: {fileID: 0}
+  animHook: {fileID: 0}
+  isGrounded: 1
+  useRootMotion: 0
   vertical: 0
   horizontal: 0
   lockOn: 0
   delta: 0
+  rootMovement: {x: 0, y: 0, z: 0}
   mouseX: 0
   mouseY: 0
   moveAmount: 0
   rotateDirection: {x: 0, y: 0, z: 0}
-  isGrounded: 1
   camera: {fileID: 963194228}
   frontRayOffset: 1
   movementSpeed: 5
@@ -1396,7 +1417,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2001680809}
-  m_LocalRotation: {x: 0.066227265, y: 0.00000001717628, z: -0.000000001139993, w: 0.9978046}
+  m_LocalRotation: {x: 0.066227265, y: 0.000000017168608, z: -0.0000000011394832,
+    w: 0.9978046}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
