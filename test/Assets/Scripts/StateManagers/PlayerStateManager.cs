@@ -12,6 +12,8 @@ public class PlayerStateManager : CharacterStateManager
 	
 	[Header("References")]
 	public new Transform camera;
+	public Cinemachine.CinemachineFreeLook normalCamera;
+	public Cinemachine.CinemachineFreeLook lockOnCamera;
 
 	[Header("Movement Stats")]
 	public float frontRayOffset = .5f;
@@ -73,7 +75,7 @@ public class PlayerStateManager : CharacterStateManager
 		delta = Time.fixedDeltaTime;
 		base.FixedTick();
 	}
-
+	
 	private void Update()
 	{
 		delta = Time.deltaTime;
@@ -84,6 +86,26 @@ public class PlayerStateManager : CharacterStateManager
 	{
 		base.LateTick();
 	}
+
+	#region Lock on
+	public override void OnAssignLookOverride(Transform target)
+	{
+		base.OnAssignLookOverride(target);
+		if (lockOn == false)
+			return;
+
+		normalCamera.gameObject.SetActive(false);
+		lockOnCamera.gameObject.SetActive(true);
+		lockOnCamera.m_LookAt = target;
+	}
+
+	public override void OnClearLookOverride()
+	{
+		base.OnClearLookOverride();
+		normalCamera.gameObject.SetActive(true);
+		lockOnCamera.gameObject.SetActive(false);
+	}
+	#endregion
 
 	#region State Events
 	void DisableRootMotion()

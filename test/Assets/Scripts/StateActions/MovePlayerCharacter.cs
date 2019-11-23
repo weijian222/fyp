@@ -14,7 +14,20 @@ public class MovePlayerCharacter : StateAction
 	{
 		float frontY = 0;
 		RaycastHit hit;
-		Vector3 origin = states.mTransform.position + (states.mTransform.forward * states.frontRayOffset);
+		Vector3 targetVelocity = Vector3.zero;
+
+		if (states.lockOn)
+		{
+			targetVelocity = states.mTransform.forward * states.vertical * states.movementSpeed;
+			targetVelocity += states.mTransform.right * states.horizontal * states.movementSpeed;
+		}
+		else
+		{
+			targetVelocity = states.mTransform.forward * states.moveAmount * states.movementSpeed;
+		}
+
+
+		Vector3 origin = states.mTransform.position + (targetVelocity.normalized * states.frontRayOffset);
 		origin.y += .5f;
 		Debug.DrawRay(origin, -Vector3.up, Color.red, .01f, false);
 		if (Physics.Raycast(origin, -Vector3.up, out hit, 1, states.ignoreForGroundCheck))
@@ -24,7 +37,7 @@ public class MovePlayerCharacter : StateAction
 		}
 
 		Vector3 currentVelocity = states.rigidbody.velocity;
-		Vector3 targetVelocity = states.mTransform.forward * states.moveAmount * states.movementSpeed;
+		
 
 		//if (states.isLockingOn)
 		//{
@@ -77,13 +90,23 @@ public class MovePlayerCharacter : StateAction
 
 	void HandleRotation()
 	{
-		float h = states.horizontal;
-		float v = states.vertical;
+		Vector3 targetDir = Vector3.zero;
+		float moveOverride = states.moveAmount;
+		if (states.lockOn)
+		{
+			targetDir = states.target.position - states.mTransform.position;
+			moveOverride = 1;
+		}
+		else
+		{
+			float h = states.horizontal;
+			float v = states.vertical;
 
-		Vector3 targetDir = states.camera.transform.forward * v;
-		targetDir += states.camera.transform.right * h;
+			targetDir = states.camera.transform.forward * v;
+			targetDir += states.camera.transform.right * h;
+		}
+
 		targetDir.Normalize();
-
 		targetDir.y = 0;
 		if (targetDir == Vector3.zero)
 			targetDir = states.mTransform.forward;
@@ -91,7 +114,7 @@ public class MovePlayerCharacter : StateAction
 		Quaternion tr = Quaternion.LookRotation(targetDir);
 		Quaternion targetRotation = Quaternion.Slerp(
 			states.mTransform.rotation, tr,
-			states.delta * states.moveAmount * states.rotationSpeed);
+			states.delta * moveOverride * states.rotationSpeed);
 
 		states.mTransform.rotation = targetRotation;
 	}
@@ -100,14 +123,44 @@ public class MovePlayerCharacter : StateAction
 	{
 		if (states.isGrounded)
 		{
-			float m = states.moveAmount;
-			float f = 0;
-			if (m > 0 && m <= .5f)
-				f = .5f;
-			else if (m > 0.5f)
-				f = 1;
+			if (states.lockOn)
+			{
+				float v = Mathf.Abs(states.vertical);
+				float f = 0;
+				if (v > 0 && v <= .5f)
+					f = .5f;
+				else if (v > 0.5f)
+					f = 1;
 
-			states.anim.SetFloat("forward", f, .2f, states.delta);
+				if (states.vertical < 0)
+					f = -f;
+
+				states.anim.SetFloat("forward", f, .2f, states.delta);
+
+				float h = Mathf.Abs(states.horizontal);
+				float s = 0;
+				if (h > 0 && h <= .5f)
+					s = .5f;
+				else if (h > 0.5f)
+					s = 1;
+
+				if (states.horizontal < 0)
+					s = -1;
+
+				states.anim.SetFloat("sideways", s, .2f, states.delta);
+			}
+			else
+			{
+				float m = states.moveAmount;
+				float f = 0;
+				if (m > 0 && m <= .5f)
+					f = .5f;
+				else if (m > 0.5f)
+					f = 1;
+
+				states.anim.SetFloat("forward", f, .2f, states.delta);
+				states.anim.SetFloat("sideways", 0, .2f, states.delta);
+			}
 		}
 		else
 		{

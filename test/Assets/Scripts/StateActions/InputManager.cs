@@ -24,7 +24,7 @@ public class InputManager : StateAction
 		Rb = Input.GetButton("RB");
 		Rt = Input.GetButton("RT");
 		Lb = Input.GetButton("LB");
-		Rt = Input.GetButton("LT");
+		Lt = Input.GetButton("LT");
 		InventoryInput = Input.GetButton("Inventory");
 		b_input = Input.GetButton("B");
 		y_input = Input.GetButtonDown("Y");
@@ -40,6 +40,18 @@ public class InputManager : StateAction
 
 		retVal = HandleAttacking();
 		
+		if (Input.GetKeyDown(KeyCode.Q))
+		{
+			if (s.lockOn)
+			{
+				s.OnClearLookOverride();
+			}
+			else
+			{
+				s.OnAssignLookOverride(s.target);
+			}
+		}
+
 		return retVal;
 	}
 
