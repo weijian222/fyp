@@ -27,6 +27,8 @@ public class PlayerStateManager : CharacterStateManager
 	public string locomotionId = "locomotion";
 	public string attackStateId = "attackState";
 
+	
+
 	public override void Init()
 	{
 		base.Init();
@@ -68,6 +70,13 @@ public class PlayerStateManager : CharacterStateManager
 		ChangeState(locomotionId);
 
 		ignoreForGroundCheck = ~(1 << 9 | 1 << 10);
+
+		//clothManager.Init();
+		//LoadListOfItems(startingCloths);
+
+		weaponHolderManager.Init();
+		weaponHolderManager.LoadWeaponOnHook(leftWeapon, true);
+		weaponHolderManager.LoadWeaponOnHook(rightWeapon, false);
 	}
 
 	private void FixedUpdate()

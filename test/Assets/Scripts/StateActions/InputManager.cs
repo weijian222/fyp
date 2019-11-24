@@ -57,9 +57,31 @@ public class InputManager : StateAction
 
 	bool HandleAttacking()
 	{
+		AttackInputs attackInput = AttackInputs.rt;
+
 		if (Rb || Rt || Lb || Lt)
 		{
 			isAttacking = true;
+
+			if (Rb)
+			{
+				attackInput = AttackInputs.rb;
+			}
+
+			if (Rt)
+			{
+				attackInput = AttackInputs.rt;
+			}
+
+			if (Lb)
+			{
+				attackInput = AttackInputs.lb;
+			}
+
+			if (Lt)
+			{
+				attackInput = AttackInputs.lt;
+			}
 		}
 
 		if (y_input)
@@ -69,7 +91,7 @@ public class InputManager : StateAction
 
 		if (isAttacking)
 		{
-			s.PlayTargetAnimation("Attack 1", true);
+			s.PlayTargetItemAction(attackInput);
 			s.ChangeState(s.attackStateId);
 		}
 
