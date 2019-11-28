@@ -4,7 +4,9 @@ using System.Collections;
 public class WeaponHolderManager : MonoBehaviour
 {
 	public WeaponHolderHook leftHook;
+	public WeaponItem leftItem;
 	public WeaponHolderHook rightHook;
+	public WeaponItem rightItem;
 
 	public void Init()
 	{
@@ -27,10 +29,12 @@ public class WeaponHolderManager : MonoBehaviour
 		if (isLeft)
 		{
 			leftHook.LoadWeaponModel(weaponItem);
+			leftItem = weaponItem;
 		}
 		else
 		{
 			rightHook.LoadWeaponModel(weaponItem);
+			rightItem = weaponItem;
 		}
 	}
 }

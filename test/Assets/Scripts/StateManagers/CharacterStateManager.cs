@@ -93,4 +93,49 @@ public abstract class CharacterStateManager : StateManager
 	{
 		lockOn = false;
 	}
+
+	public virtual void UpdateItemActionsWithCurrent()
+	{
+		ItemActionContainer[] newItemActions = new ItemActionContainer[4];
+
+		for (int i = 0; i < newItemActions.Length; i++)
+		{
+			newItemActions[i] = new ItemActionContainer();
+			newItemActions[i].animName = defaultItemActions[i].animName;
+			newItemActions[i].attackInput = defaultItemActions[i].attackInput;
+			newItemActions[i].itemAction = defaultItemActions[i].itemAction;
+			newItemActions[i].isMirrored = defaultItemActions[i].isMirrored;
+		}
+
+		if (weaponHolderManager.rightItem != null)
+		{
+			for (int i = 0; i < weaponHolderManager.rightItem.itemActions.Length; i++)
+			{
+				ItemActionContainer iac = GetItemActionContainer(weaponHolderManager.rightItem.itemActions[i].attackInput, newItemActions);
+				iac.animName = weaponHolderManager.rightItem.itemActions[i].animName;
+				//iac.attackInput = weaponHolderManager.rightItem.itemActions[i].attackInput;
+				iac.itemAction = weaponHolderManager.rightItem.itemActions[i].itemAction;
+			}
+		}
+
+		if (weaponHolderManager.leftItem != null)
+		{
+			for (int i = 0; i < weaponHolderManager.leftItem.itemActions.Length; i++)
+			{
+				ItemActionContainer weaponAction = weaponHolderManager.leftItem.itemActions[i];
+				AttackInputs ai = AttackInputs.lb;
+				if (weaponAction.attackInput == AttackInputs.rb)
+					ai = AttackInputs.lb;
+				if (weaponAction.attackInput == AttackInputs.rt)
+					ai = AttackInputs.lt;
+
+				ItemActionContainer iac = GetItemActionContainer(ai, newItemActions);
+
+				iac.animName = weaponHolderManager.leftItem.itemActions[i].animName;
+				iac.itemAction = weaponHolderManager.leftItem.itemActions[i].itemAction;
+			}
+		}
+
+		itemActions = newItemActions;
+	}
 }

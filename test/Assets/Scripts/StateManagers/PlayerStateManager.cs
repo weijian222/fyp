@@ -77,6 +77,7 @@ public class PlayerStateManager : CharacterStateManager
 		weaponHolderManager.Init();
 		weaponHolderManager.LoadWeaponOnHook(leftWeapon, true);
 		weaponHolderManager.LoadWeaponOnHook(rightWeapon, false);
+		UpdateItemActionsWithCurrent();
 	}
 
 	private void FixedUpdate()
