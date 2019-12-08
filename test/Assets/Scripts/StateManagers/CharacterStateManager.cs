@@ -14,6 +14,9 @@ public abstract class CharacterStateManager : StateManager
 	public bool isGrounded;
 	public bool useRootMotion;
 	public bool lockOn;
+	public bool isTwoHanded;
+	public bool canDoCombo;
+	public bool hasCombo;
 	public Transform target;
 
 	[Header("Controller Values")]
@@ -30,6 +33,10 @@ public abstract class CharacterStateManager : StateManager
 	//public List<ClothItem> startingCloths;
 	public WeaponItem leftWeapon;
 	public WeaponItem rightWeapon;
+
+	protected WeaponItem currentWeaponInUse;
+	protected ItemActionContainer currentItemAction;
+
 
 	public override void Init()
 	{
@@ -105,24 +112,36 @@ public abstract class CharacterStateManager : StateManager
 			newItemActions[i].attackInput = defaultItemActions[i].attackInput;
 			newItemActions[i].itemAction = defaultItemActions[i].itemAction;
 			newItemActions[i].isMirrored = defaultItemActions[i].isMirrored;
+			newItemActions[i].itemActual = defaultItemActions[i].itemActual;
 		}
 
 		if (weaponHolderManager.rightItem != null)
 		{
+			//anim.CrossFade(weaponHolderManager.rightItem.oneHanded_anim, 0.2f);
+
 			for (int i = 0; i < weaponHolderManager.rightItem.itemActions.Length; i++)
 			{
 				ItemActionContainer iac = GetItemActionContainer(weaponHolderManager.rightItem.itemActions[i].attackInput, newItemActions);
+				if (iac == null)
+					continue;
+
 				iac.animName = weaponHolderManager.rightItem.itemActions[i].animName;
 				//iac.attackInput = weaponHolderManager.rightItem.itemActions[i].attackInput;
 				iac.itemAction = weaponHolderManager.rightItem.itemActions[i].itemAction;
+				iac.itemActual = weaponHolderManager.rightItem;
 			}
 		}
 
 		if (weaponHolderManager.leftItem != null)
 		{
+			//anim.CrossFade("L" + weaponHolderManager.leftItem.oneHanded_anim, 0.2f);
+
 			for (int i = 0; i < weaponHolderManager.leftItem.itemActions.Length; i++)
 			{
 				ItemActionContainer weaponAction = weaponHolderManager.leftItem.itemActions[i];
+				if (weaponAction == null)
+					continue;
+
 				AttackInputs ai = AttackInputs.lb;
 				if (weaponAction.attackInput == AttackInputs.rb)
 					ai = AttackInputs.lb;
@@ -133,9 +152,36 @@ public abstract class CharacterStateManager : StateManager
 
 				iac.animName = weaponHolderManager.leftItem.itemActions[i].animName;
 				iac.itemAction = weaponHolderManager.leftItem.itemActions[i].itemAction;
+				iac.itemActual = weaponHolderManager.leftItem;
 			}
 		}
 
 		itemActions = newItemActions;
+	}
+
+	public void AssignCurrentWeaponAndAction(WeaponItem weapon, ItemActionContainer iac)
+	{
+		currentWeaponInUse = weapon;
+		currentItemAction = iac;
+	}
+
+	public void HandleDamageCollider(bool status)
+	{
+		if (currentWeaponInUse == null)
+			return;
+		currentWeaponInUse.weaponHook.DamageColliderStatus(status);
+	}
+
+	public virtual void CheckForComboPrompt()
+	{
+		
+	}
+
+	public void DisableCombo()
+	{
+		if (currentItemAction != null)
+		{
+			currentItemAction.animIndex = 0;
+		}
 	}
 }

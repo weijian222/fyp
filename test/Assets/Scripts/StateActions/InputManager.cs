@@ -86,7 +86,7 @@ public class InputManager : StateAction
 
 		if (y_input)
 		{
-			isAttacking = false;
+			//isAttacking = false;
 		}
 
 		if (isAttacking)

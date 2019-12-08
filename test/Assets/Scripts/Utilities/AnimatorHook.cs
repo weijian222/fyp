@@ -28,4 +28,30 @@ public class AnimatorHook : MonoBehaviour
 			states.rigidbody.velocity = v;
 		}
 	}
+
+	public void OpenDamageCollider()
+	{
+		states.HandleDamageCollider(true);
+	}
+
+	public void CloseDamageCollider()
+	{
+		states.HandleDamageCollider(false);
+	}
+
+	public void EnableCombo()
+	{
+		states.canDoCombo = true;
+	}
+
+	public void DisableCombo()
+	{
+		states.DisableCombo();
+		states.canDoCombo = false;
+	}
+
+	public void ExecuteCombo()
+	{
+		states.CheckForComboPrompt();
+	}
 }

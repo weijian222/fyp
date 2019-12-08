@@ -14,3 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modelPrefab: {fileID: 5844054511672047609, guid: ea5d5e917aacfb940aad4aeb81ff2cdb,
     type: 3}
+  itemActions:
+  - animIndex: 0
+    animName:
+    - Attack 1
+    - punch 1
+    itemAction: {fileID: 11400000, guid: 8db89eb9bc9dcbe4a90014df82a56c45, type: 2}
+    attackInput: 2
+    isMirrored: 0
+    itemActual: {fileID: 0}

@@ -33,7 +33,7 @@ public class WeaponHolderHook : MonoBehaviour
 		}
 
 		GameObject model = Instantiate(weaponItem.modelPrefab) as GameObject;
-
+		weaponItem.weaponHook = model.GetComponent<WeaponHook>();
 		if (model != null)
 		{
 			if (parentOverride != null)
