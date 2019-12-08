@@ -16,7 +16,6 @@ public abstract class CharacterStateManager : StateManager
 	public bool lockOn;
 	public bool isTwoHanded;
 	public bool canDoCombo;
-	public bool hasCombo;
 	public Transform target;
 
 	[Header("Controller Values")]
@@ -26,7 +25,7 @@ public abstract class CharacterStateManager : StateManager
 	public Vector3 rootMovement;
 
 	[Header("Item Actions")]
-	ItemActionContainer[] itemActions;
+	protected ItemActionContainer[] itemActions;
 	public ItemActionContainer[] defaultItemActions = new ItemActionContainer[4];
 
 	[Header("Runtime References")]
@@ -60,7 +59,7 @@ public abstract class CharacterStateManager : StateManager
 		}
 	}
 
-	ItemActionContainer GetItemActionContainer(AttackInputs ai, ItemActionContainer[] l)
+	protected ItemActionContainer GetItemActionContainer(AttackInputs ai, ItemActionContainer[] l)
 	{
 		for(int i = 0; i < l.Length; i++)
 		{
@@ -80,13 +79,9 @@ public abstract class CharacterStateManager : StateManager
 		anim.CrossFade(targetAnim, 0.2f);
 	}
 
-	public void PlayTargetItemAction(AttackInputs attackInput)
+	public virtual void PlayTargetItemAction(AttackInputs attackInput)
 	{
-		ItemActionContainer iac = GetItemActionContainer(attackInput, itemActions);
-		if (iac != null)
-		{
-			iac.ExecuteItemAction(this);
-		}
+		
 	}
 
 	public virtual void OnAssignLookOverride(Transform target)
@@ -172,7 +167,7 @@ public abstract class CharacterStateManager : StateManager
 		currentWeaponInUse.weaponHook.DamageColliderStatus(status);
 	}
 
-	public virtual void CheckForComboPrompt()
+	public virtual void DoCombo()
 	{
 		
 	}

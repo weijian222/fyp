@@ -50,7 +50,8 @@ public class InputsForCombo : StateAction
 
 		if (isAttacking)
 		{
-			states.hasCombo = true;
+			states.DoCombo();
+			isAttacking = false;
 		}
 
 		return false;

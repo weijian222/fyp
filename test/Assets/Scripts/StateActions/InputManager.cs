@@ -52,6 +52,15 @@ public class InputManager : StateAction
 			}
 		}
 
+		if (s.canDoCombo)
+		{
+			bool isInteracting = s.anim.GetBool("isInteracting");
+			if (!isInteracting)
+			{
+				s.canDoCombo = false;
+			}
+		}
+		
 		return retVal;
 	}
 

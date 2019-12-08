@@ -47,7 +47,8 @@ public class PlayerStateManager : CharacterStateManager
 			);
 
 		locomotion.onEnter = DisableRootMotion;
-		
+		locomotion.onEnter += DisableCombo;
+
 		State attackState = new State(
 			new List<StateAction>() //fixedUpdateActions
 			{
@@ -63,7 +64,7 @@ public class PlayerStateManager : CharacterStateManager
 			);
 
 		attackState.onEnter = EnableRootMotion;
-		//attackState.onEnter = DisableComboVariables;
+		attackState.onEnter = DisableComboVariables;
 
 		RegisterState(locomotionId, locomotion);
 		RegisterState(attackStateId, attackState);
@@ -117,17 +118,27 @@ public class PlayerStateManager : CharacterStateManager
 		lockOnCamera.gameObject.SetActive(false);
 	}
 
-	public override void CheckForComboPrompt()
+	#endregion
+
+	public override void PlayTargetItemAction(AttackInputs attackInput)
 	{
-		if (hasCombo)
+		ItemActionContainer iac = GetItemActionContainer(attackInput, itemActions);
+		if (iac != null)
 		{
-			hasCombo = false;
-			currentItemAction.ExecuteItemAction(this);
-			ChangeState("attackId");
+			iac.ExecuteItemAction(this);
+		}
+		else
+		{
+			ChangeState(locomotionId);
 		}
 	}
 
-	#endregion
+	public override void DoCombo()
+	{
+		currentItemAction.ExecuteItemAction(this);
+		ChangeState(attackStateId);
+		canDoCombo = false;
+	}
 
 	#region State Events
 	void DisableRootMotion()
@@ -142,7 +153,6 @@ public class PlayerStateManager : CharacterStateManager
 
 	void DisableComboVariables()
 	{
-		hasCombo = false;
 		canDoCombo = false;
 	}
 
